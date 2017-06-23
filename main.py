@@ -23,6 +23,7 @@ list_pending=[]
 list_last=[]
 list_btcvalue=[]
 list_market=[]
+list_percent=[]
 totalworth=0
 i=0
 n=0
@@ -43,6 +44,12 @@ contentusd=requests.get("https://www.bitstamp.net/api/v2/ticker/btcusd/")
 contentusd=contentusd.json()
 btcusd=contentusd["last"]
 
+#BTC percentage
+btcfloat=float(btcusd)
+btcopen=contentusd["open"]
+btcopen=float(btcopen)
+btcpercent=(1-(btcopen/btcfloat))*100
+
 #Picking non empty currencies
 while i<len(data["result"]):
     if data["result"][i]["Balance"]==0 and data["result"][i]["Pending"]==0:
@@ -60,22 +67,31 @@ amount=len(list_currency)
 #Getting currency price
 while n<=amount-1:
     if list_market[n]=="BTC-BTC":
-        list_last.append(1)
+        list_last.append(btceuro+ " eur | "+btcusd+ " usd")
         list_btcvalue.append(list_balance[n])
+        list_percent.append(btcpercent)
         n+=1
     else:
         ticker=wallet1.get_ticker(list_market[n])
+        summary=requests.get("https://bittrex.com/api/v1.1/public/getmarketsummary?market="+list_market[n])
+        summary=summary.json()
+        summary=summary["result"][0]["PrevDay"]
+        summary=float(summary)
+        percent=(1-(summary/ticker["result"]["Last"]))*100
+        percent=float(percent)
         list_last.append(ticker["result"]["Last"])
         list_btcvalue.append(list_last[n]*list_balance[n])
+        list_percent.append(percent)
         n+=1
         
-#Printing currency details
+#Printing wallet details
 while k<=amount-1:
     totalworth+=list_btcvalue[k]
-    print list_currency[k],"(",list_last[k],")","\n","Balance : ",list_balance[k],"\n","Available : ",list_available[k],"\n","Pending : ",list_pending[k],"\n","Worth : ",list_btcvalue[k]," btc","\n","\n"
+    print list_currency[k],"(",list_last[k],"|",list_percent[k],"%",")","\n","Balance : ",list_balance[k],"\n","Available : ",list_available[k],"\n","Pending : ",list_pending[k],"\n","Worth : ",list_btcvalue[k]," btc","\n","\n"
     k+=1
 btceuro=float(btceuro)
 btcusd=float(btcusd)
+
 print "Total worth : ",totalworth," btc", "\n","              ", totalworth*btceuro, "eur", "\n","              ", totalworth*btcusd, "usd", "\n"
 
     
