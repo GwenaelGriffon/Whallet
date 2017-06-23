@@ -49,6 +49,7 @@ btcfloat=float(btcusd)
 btcopen=contentusd["open"]
 btcopen=float(btcopen)
 btcpercent=(1-(btcopen/btcfloat))*100
+btcpercent=float(btcpercent)
 
 #Picking non empty currencies
 while i<len(data["result"]):
@@ -67,7 +68,7 @@ amount=len(list_currency)
 #Getting currency price
 while n<=amount-1:
     if list_market[n]=="BTC-BTC":
-        list_last.append(btceuro+ " eur | "+btcusd+ " usd")
+        list_last.append(btcusd+ " usd | "+btceuro+ " eur")
         list_btcvalue.append(list_balance[n])
         list_percent.append(btcpercent)
         n+=1
@@ -79,7 +80,9 @@ while n<=amount-1:
         summary=float(summary)
         percent=(1-(summary/ticker["result"]["Last"]))*100
         percent=float(percent)
-        list_last.append(ticker["result"]["Last"])
+        ticker=ticker["result"]["Last"]
+        ticker=float(ticker)
+        list_last.append(ticker)
         list_btcvalue.append(list_last[n]*list_balance[n])
         list_percent.append(percent)
         n+=1
@@ -87,11 +90,14 @@ while n<=amount-1:
 #Printing wallet details
 while k<=amount-1:
     totalworth+=list_btcvalue[k]
-    print list_currency[k],"(",list_last[k],"|",list_percent[k],"%",")","\n","Balance : ",list_balance[k],"\n","Available : ",list_available[k],"\n","Pending : ",list_pending[k],"\n","Worth : ",list_btcvalue[k]," btc","\n","\n"
+    if k==0:
+        print list_currency[k],"(",list_last[k],"|","%.2f" % list_percent[k],"%",")","\n","Balance : ","%.8f" % list_balance[k],"\n","Available : ","%.8f" % list_available[k],"\n","Pending : ","%.8f" % list_pending[k],"\n","Worth : ","%.8f" % list_btcvalue[k]," btc","\n","\n"
+    else :
+        print list_currency[k],"(","%.8f" % list_last[k],"|","%.2f" % list_percent[k],"%",")","\n","Balance : ","%.8f" % list_balance[k],"\n","Available : ","%.8f" % list_available[k],"\n","Pending : ","%.8f" % list_pending[k],"\n","Worth : ","%.8f" % list_btcvalue[k]," btc","\n","\n"
     k+=1
 btceuro=float(btceuro)
 btcusd=float(btcusd)
 
-print "Total worth : ",totalworth," btc", "\n","              ", totalworth*btceuro, "eur", "\n","              ", totalworth*btcusd, "usd", "\n"
+print "Total worth : ","%.8f" % totalworth," btc", "\n","              ","%.2f" % (totalworth*btcusd), "usd", "\n","              ","%.2f" % (totalworth*btceuro), "eur", "\n"
 
     
