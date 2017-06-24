@@ -68,7 +68,7 @@ amount=len(list_currency)
 #Getting currency price
 while n<=amount-1:
     if list_market[n]=="BTC-BTC":
-        list_last.append(btcusd+ " usd | "+btceuro+ " eur")
+        list_last.append(btceuro+ " eur | "+btcusd+ " usd")
         list_btcvalue.append(list_balance[n])
         list_percent.append(btcpercent)
         n+=1
@@ -91,13 +91,13 @@ while n<=amount-1:
 while k<=amount-1:
     totalworth+=list_btcvalue[k]
     if k==0:
-        print list_currency[k],"(",list_last[k],"|","%.2f" % list_percent[k],"%",")","\n","Balance : ","%.8f" % list_balance[k],"\n","Available : ","%.8f" % list_available[k],"\n","Pending : ","%.8f" % list_pending[k],"\n","Worth : ","%.8f" % list_btcvalue[k]," btc","\n","\n"
+        print list_currency[k],"(",list_last[k],"|","%+.2f" % list_percent[k],"%",")","\n","Balance : ","%.8f" % list_balance[k],"\n","Available : ","%.8f" % list_available[k],"\n","Pending : ","%.8f" % list_pending[k],"\n","Worth : ","%.8f" % list_btcvalue[k]," btc","\n","\n"
     else :
-        print list_currency[k],"(","%.8f" % list_last[k],"|","%.2f" % list_percent[k],"%",")","\n","Balance : ","%.8f" % list_balance[k],"\n","Available : ","%.8f" % list_available[k],"\n","Pending : ","%.8f" % list_pending[k],"\n","Worth : ","%.8f" % list_btcvalue[k]," btc","\n","\n"
+        print list_currency[k],"(","%.8f" % list_last[k],"|","%+.2f" % list_percent[k],"%",")","\n","Balance : ","%.8f" % list_balance[k],"\n","Available : ","%.8f" % list_available[k],"\n","Pending : ","%.8f" % list_pending[k],"\n","Worth : ","%.8f" % list_btcvalue[k]," btc","\n","\n"
     k+=1
 btceuro=float(btceuro)
 btcusd=float(btcusd)
 
-print "Total worth : ","%.8f" % totalworth," btc", "\n","              ","%.2f" % (totalworth*btcusd), "usd", "\n","              ","%.2f" % (totalworth*btceuro), "eur", "\n"
+print "Total worth : ","%.8f" % totalworth," btc", "\n","              ","%.2f" % (totalworth*btceuro), "eur", "\n","              ","%.2f" % (totalworth*btcusd), "usd", "\n"
 
     
